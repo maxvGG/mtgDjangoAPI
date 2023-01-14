@@ -1,14 +1,9 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import requests
 
 
 # Create your views here.
-
-
 @api_view(['GET'])
 def api_overview(request):
     api_urls = {
@@ -21,13 +16,12 @@ def api_overview(request):
 
 
 @api_view(['GET'])
-def card_by_name(request, pk):
+def search_card_by_name(request, pk):
     card = requests.get('https://api.scryfall.com/cards/named?fuzzy=' + pk)
     data = card.json()
     return Response(data)
 
 
-# query a random card from scryfall
 @api_view(['GET'])
 def random_card(request):
     card = requests.get('https://api.scryfall.com/cards/random')
@@ -36,7 +30,7 @@ def random_card(request):
 
 
 @api_view(['GET'])
-def card_by_set(request, pk):
+def search_cards_from_set(request, pk):
     card = requests.get('https://api.scryfall.com/cards/search?q=(set:' + pk + ')')
     data = card.json()
     return Response(data)
