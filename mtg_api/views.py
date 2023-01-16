@@ -38,7 +38,11 @@ def random_card(request):
     """
     card = requests.get('https://api.scryfall.com/cards/random')
     data = card.json()
-    return Response(data)
+    return Response({
+        "name": data['name'],
+        "url": data['scryfall_uri'],
+        "image": data['image_uris']["normal"],
+    })
 
 
 @api_view(['GET'])
