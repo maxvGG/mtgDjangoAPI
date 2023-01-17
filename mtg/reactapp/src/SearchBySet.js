@@ -28,19 +28,6 @@ export default class SearchBySet extends Component {
         event.preventDefault()
     }
 
-    // renderCard(event){
-    //     // return (
-    //     //        {Object.keys(this.obj).map((value) => {
-    //     //            <div>
-    //     //               <Card
-    //     //                   name={this.obj[value]['name']}
-    //     //                   imgUrl={this.obj[value]['image_uris']['normal']}
-    //     //                   url={this.obj[value]['scryfall_uri']}
-    //     //               />
-    //     //               <hr/>
-    //     //            </div>
-    //     //        })})
-    // }
     _renderObject(){
         return Object.entries(this.state.set).map(([key, value], i) => {
             return (
