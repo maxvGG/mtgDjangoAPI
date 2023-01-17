@@ -10,7 +10,7 @@ export default class Card extends React.Component {
             <div>
                 <h2>{this.props.name}</h2>
                 <img src={this.props.imgUrl} alt={this.props.name} />
-                <a href={this.props.url} target={"_blank"}></a>
+                <a href={this.props.url} target={"_blank"}>{this.props.name}</a>
             </div>
         )
     }

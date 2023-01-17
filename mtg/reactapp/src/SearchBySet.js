@@ -2,12 +2,14 @@ import React, {Component} from "react";
 import Card from "./Card";
 
 export default class SearchBySet extends Component {
+    obj;
     constructor(props) {
         super(props);
         this.state = {
             submitted: false,
 
-            set: {}
+            setName:'',
+            set:[]
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -15,39 +17,52 @@ export default class SearchBySet extends Component {
     }
 
     handleChange(event) {
-        this.setState({set : event.target.value})
+        this.setState({setName : event.target.value})
     }
 
     handleSubmit(event) {
         this.setState({submitted: true})
-        fetch(`http://127.0.0.1:8000/api/set/${this.state.set}`)
+        fetch(`http://127.0.0.1:8000/api/set/${this.state.setName}`)
             .then((response) => response.json())
-            .then((data) => this.setState({
-                set: data,
-            }))
-            .then(console.log(typeof data))
+            .then((data) => this.setState({set: data['data']}))
         event.preventDefault()
     }
 
-    renderCard(){
-        console.log(typeof(this.state.set))
-        // for(i =)
-        // this.state.set.map((i, j) => {
-        //     console.log(i,j)
-        // })
-        // return this.state.set["data"].map((item, i) => <li key={i}>{item}</li>)
-            // <Card name={this.state.name} imgUrl={this.state.imgUrl} url={this.state.url}/>
+    // renderCard(event){
+    //     // return (
+    //     //        {Object.keys(this.obj).map((value) => {
+    //     //            <div>
+    //     //               <Card
+    //     //                   name={this.obj[value]['name']}
+    //     //                   imgUrl={this.obj[value]['image_uris']['normal']}
+    //     //                   url={this.obj[value]['scryfall_uri']}
+    //     //               />
+    //     //               <hr/>
+    //     //            </div>
+    //     //        })})
+    // }
+    _renderObject(){
+        return Object.entries(this.state.set).map(([key, value], i) => {
+            return (
+                <Card
+                      name={value.name}
+                      imgUrl={value.image_uris.normal}
+                      url={value.scryfall_uri}
+                />
+            )
+        })
     }
+
 
     render() {
         return(
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <label htmlFor="cardName">Card name:</label>
-                    <input type="text" value={this.state.name} onChange={this.handleChange} id="cardName"/>
+                    <input type="text" value={this.state.setName} onChange={this.handleChange} id="cardName"/>
                 </form>
                 <hr/>
-                {this.state.submitted && this.renderCard()}
+                {this.state.submitted && this._renderObject()}
             </div>
         )
     }
